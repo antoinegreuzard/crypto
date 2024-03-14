@@ -1,37 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cryptographie simple</title>
-  <link rel="stylesheet" href="./styles.scss">
-</head>
-<body class="bg-gray-100 text-gray-900 font-sans p-4">
-  <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden p-5">
-    <h1 class="text-2xl font-bold text-center mb-4">Chiffrement</h1>
-    <div class="mb-4">
-      <input type="text" id="inputText" placeholder="Texte à chiffrer/déchiffrer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cryptographie simple</title>
+    <link rel="stylesheet" href="./styles.scss" />
+  </head>
+  <body class="bg-gray-100 text-gray-900 font-sans p-4">
+    <div
+      class="mx-auto bg-white rounded-lg shadow-md p-5"
+    >
+      <h1 class="text-2xl font-bold text-center mb-4">Chiffrement</h1>
+      <div class="mb-4">
+        <input
+          type="text"
+          id="inputText"
+          placeholder="Texte à chiffrer/déchiffrer"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
+      <div class="mb-4" id="shiftContainer" style="display: none">
+        <input
+          type="number"
+          id="shift"
+          placeholder="Décalage (pour César)"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
+      <div class="mb-4" id="keyContainer" style="display: none;">
+        <input type="text" id="key" placeholder="Clé de chiffrement (pour RC4, XOR, Vigenère)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </div>
+      <div class="mb-4">
+        <select
+          id="algorithm"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="substitution" selected>
+            Chiffrement par substitution
+          </option>
+          <option value="caesar">Chiffrement César</option>
+          <option value="vigenere">Chiffrement de Vigenère</option>
+          <option value="rc4">Chiffrement Rivest Cipher 4</option>
+          <option value="xor">Chiffrement avec XOR</option>
+          <option value="sha256">Hashage avec SHA-256</option>
+        </select>
+      </div>
+      <div class="flex justify-between mb-4">
+        <button
+          id="encryptBtn"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Chiffrer
+        </button>
+        <button
+          id="decryptBtn"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Déchiffrer
+        </button>
+      </div>
+      <p>Résultat: <span id="result" class="text-gray-800"></span></p>
     </div>
-    <div class="mb-4" id="shiftContainer" style="display: none;">
-      <input type="number" id="shift" placeholder="Décalage (pour César)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-    </div>
-    <div class="mb-4" id="keyContainer" style="display: none;">
-      <input type="text" id="key" placeholder="Clé de chiffrement (pour Vigenère)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-    </div>
-    <div class="mb-4">
-      <select id="algorithm" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        <option value="substitution" selected>Chiffrement par substitution</option>
-        <option value="caesar">Chiffrement César</option>
-        <option value="vigenere">Chiffrement de Vigenère</option>
-      </select>
-    </div>
-    <div class="flex justify-between mb-4">
-      <button id="encryptBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Chiffrer</button>
-      <button id="decryptBtn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Déchiffrer</button>
-    </div>
-    <p>Résultat: <span id="result" class="text-gray-800"></span></p>
-  </div>
 
-  <script type="module" src="./src/main.ts"></script>
-</body>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
 </html>

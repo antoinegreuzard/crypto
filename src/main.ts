@@ -1,86 +1,142 @@
-import './styles.scss'
-import { caesarCipher, substitutionCipher, vigenereCipher } from './cipher'
+import { rc4, sha256Browser, xorCipher } from './cipher/modern';
+import { vigenereCipher } from './cipher/poly';
+import { caesarCipher, substitutionCipher } from './cipher/subs';
+import './styles.scss';
 
-// Helper function to safely use elements
-function useElement<T extends HTMLElement> (selector: string, callback: (element: T) => void): void {
-  const element = document.getElementById(selector) as T | null
+function useElement<T extends HTMLElement>(
+  selector: string,
+  callback: (element: T) => void,
+): void {
+  const element = document.getElementById(selector) as T | null;
   if (element === null) {
-    console.error(`Element with selector "${selector}" not found.`)
-    return
+    console.error(`Element with selector "${selector}" not found.`);
+    return;
   }
-  callback(element)
+  callback(element);
 }
 
-// Function to perform encryption or decryption
-function encryptOrDecrypt (decrypt: boolean): void {
+function encryptOrDecrypt(decrypt: boolean): void {
   useElement<HTMLInputElement>('inputText', (inputText) => {
     useElement<HTMLInputElement>('shift', (shift) => {
       useElement<HTMLSelectElement>('algorithm', (algorithmSelect) => {
         useElement<HTMLElement>('result', (result) => {
-          const text = inputText.value
-          const shiftValue = isNaN(parseInt(shift.value)) ? 0 : parseInt(shift.value)
-          let outputText = ''
+          const text = inputText.value;
+          const shiftValue = isNaN(parseInt(shift.value))
+            ? 0
+            : parseInt(shift.value);
+          let outputText = '';
 
-          switch (algorithmSelect.value) {
-            case 'caesar': {
-              outputText = caesarCipher(text, shiftValue, decrypt)
-              break
+          void (async () => {
+            switch (algorithmSelect.value) {
+              case 'caesar': {
+                outputText = caesarCipher(text, shiftValue, decrypt);
+                break;
+              }
+              case 'substitution': {
+                const alphabet = 'zyxwvutsrqponmlkjihgfedcba';
+                outputText = substitutionCipher(text, alphabet, decrypt);
+                break;
+              }
+              case 'vigenere': {
+                useElement<HTMLInputElement>('key', (keyElement) => {
+                  const key = keyElement.value;
+                  if (key.length === 0) {
+                    outputText = 'Clé de chiffrement manquante.';
+                  } else {
+                    outputText = vigenereCipher(text, key, decrypt);
+                  }
+                });
+                break;
+              }
+              case 'rc4':
+                useElement<HTMLInputElement>('key', (keyElement) => {
+                  const key = keyElement.value;
+                  if (key.length === 0) {
+                    outputText = 'Clé de chiffrement RC4 manquante.';
+                  } else {
+                    outputText = rc4(text, key);
+                  }
+                });
+                break;
+              case 'xor': {
+                useElement<HTMLInputElement>('key', (keyElement) => {
+                  const key = keyElement.value;
+                  if (key.length === 0) {
+                    outputText = 'Clé de chiffrement manquante.';
+                  } else {
+                    outputText =
+                      algorithmSelect.value === 'rc4'
+                        ? rc4(text, key)
+                        : xorCipher(text, key);
+                  }
+                });
+                break;
+              }
+              case 'sha256': {
+                outputText = await sha256Browser(text);
+                break;
+              }
+              default: {
+                console.error('Unknown encryption algorithm selected.');
+                return;
+              }
             }
-            case 'substitution': {
-              const alphabet = 'zyxwvutsrqponmlkjihgfedcba'
-              outputText = substitutionCipher(text, alphabet, decrypt)
-              break
-            }
-            case 'vigenere': {
-              useElement<HTMLInputElement>('key', (keyElement) => {
-                const key = keyElement.value
-                if (key.length === 0) {
-                  console.error('Clé de chiffrement Vigenère manquante.')
-                  return
-                }
-                outputText = vigenereCipher(text, key, decrypt)
-              })
-              break
-            }
-            default:
-              console.error('Unknown encryption algorithm selected.')
-              return
-          }
 
-          result.textContent = outputText
-        })
-      })
-    })
-  })
+            result.textContent = outputText;
+          })();
+        });
+      });
+    });
+  });
 }
 
-// Setup event listeners and dynamically show/hide key input for Vigenère cipher
-function setupEventListeners (): void {
+function setupEventListeners(): void {
   useElement<HTMLButtonElement>('encryptBtn', (encryptBtn) => {
-    encryptBtn.addEventListener('click', () => { encryptOrDecrypt(false) })
-  })
+    encryptBtn.addEventListener('click', () => {
+      encryptOrDecrypt(false);
+    });
+  });
 
   useElement<HTMLButtonElement>('decryptBtn', (decryptBtn) => {
-    decryptBtn.addEventListener('click', () => { encryptOrDecrypt(true) })
-  })
+    decryptBtn.addEventListener('click', () => {
+      encryptOrDecrypt(true);
+    });
+  });
 
   useElement<HTMLSelectElement>('algorithm', (algorithmSelect) => {
-    const shiftInputContainer = document.getElementById('shiftContainer')
-    const keyInputContainer = document.getElementById('keyContainer')
+    const shiftInputContainer = document.getElementById('shiftContainer');
+    const keyInputContainer = document.getElementById('keyContainer');
+    const keyElement = document.getElementById(
+      'key',
+    ) as HTMLInputElement | null;
+
+    if (
+      shiftInputContainer == null ||
+      keyInputContainer == null ||
+      keyElement == null
+    ) {
+      console.error('One or more containers or elements are missing.');
+      return;
+    }
+
     algorithmSelect.addEventListener('change', () => {
-      if (algorithmSelect.value === 'vigenere') {
-        if (keyInputContainer != null) keyInputContainer.style.display = 'block'
-        if (shiftInputContainer != null) shiftInputContainer.style.display = 'none'
-      } else if (algorithmSelect.value === 'caesar') {
-        if (shiftInputContainer != null) shiftInputContainer.style.display = 'block'
-        if (keyInputContainer != null) keyInputContainer.style.display = 'none'
+      const isCipherWithKey = ['vigenere', 'rc4', 'xor'].includes(
+        algorithmSelect.value,
+      );
+      const isCipherWithShift = ['caesar'].includes(algorithmSelect.value);
+
+      shiftInputContainer.style.display = isCipherWithShift ? 'block' : 'none';
+      keyInputContainer.style.display = isCipherWithKey ? 'block' : 'none';
+
+      if (algorithmSelect.value === 'xor') {
+        keyElement.type = 'number';
+        keyElement.placeholder = 'Clé numérique (pour XOR)';
       } else {
-        if (shiftInputContainer != null) shiftInputContainer.style.display = 'none'
-        if (keyInputContainer != null) keyInputContainer.style.display = 'none'
+        keyElement.type = 'text';
+        keyElement.placeholder = 'Clé de chiffrement (pour RC4, Vigenère)';
       }
-    })
-  })
+    });
+  });
 }
 
-// Execute setup function
-setupEventListeners()
+setupEventListeners();
