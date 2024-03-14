@@ -1,5 +1,5 @@
 import './styles.scss'
-import { caesarCipher, substitutionCipher } from './cipher'
+import { caesarCipher, substitutionCipher, vigenereCipher } from './cipher'
 
 // Helper function to safely use elements
 function useElement<T extends HTMLElement> (selector: string, callback: (element: T) => void): void {
@@ -27,9 +27,19 @@ function encryptOrDecrypt (decrypt: boolean): void {
               break
             }
             case 'substitution': {
-              // Example substitution alphabet, should be customized for actual use
               const alphabet = 'zyxwvutsrqponmlkjihgfedcba'
               outputText = substitutionCipher(text, alphabet, decrypt)
+              break
+            }
+            case 'vigenere': {
+              useElement<HTMLInputElement>('key', (keyElement) => {
+                const key = keyElement.value
+                if (key.length === 0) {
+                  console.error('Clé de chiffrement Vigenère manquante.')
+                  return
+                }
+                outputText = vigenereCipher(text, key, decrypt)
+              })
               break
             }
             default:
@@ -44,7 +54,7 @@ function encryptOrDecrypt (decrypt: boolean): void {
   })
 }
 
-// Setup event listeners
+// Setup event listeners and dynamically show/hide key input for Vigenère cipher
 function setupEventListeners (): void {
   useElement<HTMLButtonElement>('encryptBtn', (encryptBtn) => {
     encryptBtn.addEventListener('click', () => { encryptOrDecrypt(false) })
@@ -52,6 +62,23 @@ function setupEventListeners (): void {
 
   useElement<HTMLButtonElement>('decryptBtn', (decryptBtn) => {
     decryptBtn.addEventListener('click', () => { encryptOrDecrypt(true) })
+  })
+
+  useElement<HTMLSelectElement>('algorithm', (algorithmSelect) => {
+    const shiftInputContainer = document.getElementById('shiftContainer')
+    const keyInputContainer = document.getElementById('keyContainer')
+    algorithmSelect.addEventListener('change', () => {
+      if (algorithmSelect.value === 'vigenere') {
+        if (keyInputContainer != null) keyInputContainer.style.display = 'block'
+        if (shiftInputContainer != null) shiftInputContainer.style.display = 'none'
+      } else if (algorithmSelect.value === 'caesar') {
+        if (shiftInputContainer != null) shiftInputContainer.style.display = 'block'
+        if (keyInputContainer != null) keyInputContainer.style.display = 'none'
+      } else {
+        if (shiftInputContainer != null) shiftInputContainer.style.display = 'none'
+        if (keyInputContainer != null) keyInputContainer.style.display = 'none'
+      }
+    })
   })
 }
 

@@ -4,15 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cryptographie simple</title>
+  <link rel="stylesheet" href="./styles.scss">
 </head>
 <body class="bg-gray-100 text-gray-900 font-sans p-4">
   <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden p-5">
-    <h1 class="text-2xl font-bold text-center mb-4">Chiffrement César</h1>
+    <h1 class="text-2xl font-bold text-center mb-4">Chiffrement</h1>
     <div class="mb-4">
       <input type="text" id="inputText" placeholder="Texte à chiffrer/déchiffrer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     </div>
+    <div class="mb-4" id="shiftContainer" style="display: none;">
+      <input type="number" id="shift" placeholder="Décalage (pour César)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+    <div class="mb-4" id="keyContainer" style="display: none;">
+      <input type="text" id="key" placeholder="Clé de chiffrement (pour Vigenère)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
     <div class="mb-4">
-      <input type="number" id="shift" placeholder="Décalage" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      <select id="algorithm" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <option value="substitution" selected>Chiffrement par substitution</option>
+        <option value="caesar">Chiffrement César</option>
+        <option value="vigenere">Chiffrement de Vigenère</option>
+      </select>
     </div>
     <div class="flex justify-between mb-4">
       <button id="encryptBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Chiffrer</button>
