@@ -42,8 +42,8 @@ devDependencies:
     specifier: ^3.2.5
     version: 3.2.5
   sass:
-    specifier: ^1.74.1
-    version: 1.74.1
+    specifier: ^1.77.0
+    version: 1.77.0
   stylelint:
     specifier: ^16.4.0
     version: 16.4.0(typescript@5.4.5)
@@ -64,7 +64,7 @@ devDependencies:
     version: 5.4.5
   vite:
     specifier: ^5.2.9
-    version: 5.2.9(@types/node@20.12.7)(sass@1.74.1)
+    version: 5.2.9(@types/node@20.12.7)(sass@1.77.0)
 
 packages:
 
@@ -2839,8 +2839,8 @@ packages:
       is-regex: 1.1.4
     dev: true
 
-  /sass@1.74.1:
-    resolution: {integrity: sha512-w0Z9p/rWZWelb88ISOLyvqTWGmtmu2QJICqDBGyNnfG4OUnPX9BBjjYIXUpXCMOOg5MQWNpqzt876la1fsTvUA==}
+  /sass@1.77.0:
+    resolution: {integrity: sha512-eGj4HNfXqBWtSnvItNkn7B6icqH14i3CiCGbzMKs3BAPTq62pp9NBYsBgyN4cA+qssqo9r26lW4JSvlaUUWbgw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -3328,7 +3328,7 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /vite@5.2.9(@types/node@20.12.7)(sass@1.74.1):
+  /vite@5.2.9(@types/node@20.12.7)(sass@1.77.0):
     resolution: {integrity: sha512-uOQWfuZBlc6Y3W/DTuQ1Sr+oIXWvqljLvS881SVmAj00d5RdgShLcuXWxseWPd4HXwiYBFW/vXHfKFeqj9uQnw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3360,7 +3360,7 @@ packages:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.13.0
-      sass: 1.74.1
+      sass: 1.77.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
