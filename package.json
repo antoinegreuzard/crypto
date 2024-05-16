@@ -15,7 +15,7 @@
     "stylelint:fix": "stylelint \"**/*.{css,scss}\" --fix"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.1.1",
