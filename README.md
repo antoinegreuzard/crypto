@@ -32,22 +32,22 @@ Ce projet propose une interface web pour chiffrer et déchiffrer des textes en u
 
 2. **Installer les dépendances** :
     ```sh
-    npm install
+    pnpm install
     ```
 
 3. **Lancer le projet en mode développement** :
     ```sh
-    npm run dev
+    pnpm run dev
     ```
 
 4. **Construire le projet pour la production** :
     ```sh
-    npm run build
+    pnpm run build
     ```
 
 5. **Prévisualiser la version construite** :
     ```sh
-    npm run preview
+    pnpm run preview
     ```
 
 ## Utilisation
