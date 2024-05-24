@@ -1,3 +1,30 @@
+import { SHA256 as cryptoJsSHA256 } from 'crypto-js';
+import { TextEncoder } from 'util';
+
+let subtle: SubtleCrypto;
+if (typeof global !== 'undefined' && global.crypto && global.crypto.subtle) {
+  subtle = global.crypto.subtle;
+} else if (
+  typeof window !== 'undefined' &&
+  window.crypto &&
+  window.crypto.subtle
+) {
+  subtle = window.crypto.subtle;
+}
+
+export async function sha256Browser(text: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+
+  if (subtle) {
+    const hashBuffer = await subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  } else {
+    return cryptoJsSHA256(text).toString();
+  }
+}
+
 /**
  * Chiffre RC4
  */
@@ -40,14 +67,3 @@ export const xorCipher = (text: string, key: string): string => {
 
   return result;
 };
-
-/**
- * SHA-256
- */
-export async function sha256Browser(text: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-}
