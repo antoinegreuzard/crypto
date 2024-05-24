@@ -1,5 +1,4 @@
 import { SHA256 as cryptoJsSHA256 } from 'crypto-js';
-import { TextEncoder } from 'util';
 
 let subtle: SubtleCrypto;
 if (typeof global !== 'undefined' && global.crypto && global.crypto.subtle) {
