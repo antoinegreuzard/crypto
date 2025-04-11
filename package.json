@@ -20,7 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^8.29.0",
     "autoprefixer": "^10.4.21",
     "crypto-js": "^4.2.0",
-    "eslint": "^9.22.0",
+    "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-config-love": "^44.0",
     "eslint-plugin-import": "^2.29.1",
@@ -37,7 +37,7 @@
     "vite": "^6.2.6"
   },
   "dependencies": {
-    "@eslint/js": "^9.22.0",
+    "@eslint/js": "^9.24.0",
     "typescript-eslint": "^8.29.0"
   }
 }
