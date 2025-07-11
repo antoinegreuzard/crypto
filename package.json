@@ -22,7 +22,7 @@
     "crypto-js": "^4.2.0",
     "eslint": "^9.30.1",
     "eslint-config-prettier": "^10.1.5",
-    "eslint-config-love": "^120.0.0",
+    "eslint-config-love": "^121.0.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-n": "^17.21.0",
     "eslint-plugin-promise": "^7.2.1",
