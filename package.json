@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/jest": "^29.5.14",
+    "@types/jest": "^30.0.0",
     "@types/node": "^22.15.30",
     "@typescript-eslint/eslint-plugin": "^8.34.1",
     "autoprefixer": "^10.4.21",
